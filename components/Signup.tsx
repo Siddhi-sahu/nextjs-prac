@@ -1,5 +1,6 @@
 "use client"
 
+import { signup } from "@/app/actions/user"
 import axios from "axios"
 import { useState } from "react"
 
@@ -20,10 +21,8 @@ export function Signup() {
                 <div className="flex justify-center ">
 
                     <button onClick={async () => {
-                        await axios.post("http://localhost:3000/api/user", {
-                            email,
-                            password
-                        })
+                        const res = await signup(email, password)
+                        console.log(res)
                     }} className="mt-4  bg-pink-700 py-2 px-10 text-white rounded-lg">sign up</button>
                 </div>
 

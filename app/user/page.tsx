@@ -1,8 +1,5 @@
 //make sure this is a server component as we are directly talking to db here (the better way to do fetches)
-import { PrismaClient } from "@prisma/client";
-
-
-const client = new PrismaClient()
+import client from "@/db"
 
 interface UserData {
     name: string;
