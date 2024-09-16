@@ -1,33 +1,68 @@
-import { NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { NextRequest, NextResponse } from "next/server";
 
 const client = new PrismaClient()
 
+// export async function GET() {
+//     //do validation here 
+//     //hit the database here
+//     const user = await client.user.findFirst()
+//     return NextResponse.json({
+//         name: "himani",
+//         email: user?.email
+//     })
+// }
+
 export async function POST(req: NextRequest) {
-    //extract the body
 
-    const body = await req.json()
 
-    //store the body in t he database
+    const body = await req.json();
 
-    await client.user.create({
-        data: {
-            username: body.username,
-            password: body.password
-        }
-    })
+    try {
+        await client.user.create({
+            data: {
+                email: body.email,
+                password: body.password
+            }
+        })
 
-    //send response to user
 
-    return Response.json({
-        message: "You are logged in"
-    })
+        return NextResponse.json({
+            body
+        })
+
+
+    } catch (e) {
+
+        console.log(e)
+        return NextResponse.json({
+            msg: "error while signing up"
+        }, {
+            status: 411
+        })
+
+    }
+
 
 }
 
-export function GET() {
-    return Response.json({
-        name: "himani",
-        email: "himanin@gmail.com"
-    })
-}
+//example
+// export async function POST(req: NextRequest) {
+
+//     //body
+//     const body = await req.json();
+//     console.log(body)
+
+//     //headers
+//     console.log(req.headers.get("authorization"))
+
+//     //query parameter
+//     console.log(req.nextUrl.searchParams.get("name"))
+
+//     //hit the database with username, password
+
+//     return NextResponse.json({
+//         msg: "you are signed up"
+//     })
+
+// }
